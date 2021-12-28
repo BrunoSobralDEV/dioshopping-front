@@ -4,12 +4,12 @@ import { Grid, Button, TextField } from '@material-ui/core/';
 const Contatos = () => {
 
     const url = 'http://localhost:5000/message'
-    const [message, setMessage] = useState([]);
-    const [author, setAuthor] = useState('');
-    const [content, setContent] = useState('');
+    const [message, setMessage]     = useState([]);
+    const [author, setAuthor]       = useState('');
+    const [content, setContent]     = useState('');
     const [validator, setValidator] = useState(false);
-    const [render, setRender] = useState(false);
-    const [success, setSuccess] = useState(false);
+    const [render, setRender]       = useState(false);
+    const [success, setSuccess]     = useState(false);
 
     useEffect(async () => {
         const response = await fetch(url)
