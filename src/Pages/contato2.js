@@ -27,18 +27,21 @@ const Mural = () =>{
         if(author.length <= 0 || content.length <= 0){
             return setValidator(!validator)
         }
-        
+        //Transformar em String p/ passar p/ o Payload
+        const bodyForm = {
+            email: author,
+            message: content
+        }
         //Envio dos dados p/ Back-end
         fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: {
-                email: author,
-                message: content
-            }
+            body: JSON.stringify(bodyForm)
         })
+
+        console.log(content)
     }
 
     return(
