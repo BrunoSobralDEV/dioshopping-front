@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 import { Grid, Button, TextField } from "@material-ui/core";
 
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
 
 const Mural = () =>{
 
@@ -29,7 +34,7 @@ const Mural = () =>{
     const sendMessage = () =>{
         setValidator(false);
         if(author.length <= 0 || content.length <= 0){
-            return setValidator(!validator)
+            return setValidator(!validator);
         }
         //Transformar em String p/ passar p/ o Payload
         const bodyForm = {
@@ -64,41 +69,88 @@ const Mural = () =>{
         console.log(content)
     }
 
-    return(
-        <>
-            <Grid container direction="row" xs={12}>
-                <TextField id="name" label="Name" value={author} onChange={(event)=>{setAuthor(event.target.value)}} fullWidth />
-                <TextField id="message" label="Message" value={content} onChange={(event)=>{setContent(event.target.value)}} fullWidth />
-            </Grid>
+    return (
+      <>
+        <Grid container direction="row" xs={12}>
+          <TextField
+            id="name"
+            label="Name"
+            value={author}
+            onChange={(event) => {
+              setAuthor(event.target.value);
+            }}
+            fullWidth
+          />
+          <TextField
+            id="message"
+            label="Message"
+            value={content}
+            onChange={(event) => {
+              setContent(event.target.value);
+            }}
+            fullWidth
+          />
+        </Grid>
 
-            {validator &&
-                <div className="alert alert-warning alert-dismissible fade show mt-2" role="alert">
-                    <strong>Por favor preencha todos os campos!</strong>
-                    <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            }
-            {success &&
-                <div className="alert alert-success alert-dismissible fade show mt-2" role="alert">
-                    <strong>Mensagem enviada!</strong>
-                </div>
-            }
+        {validator && (
+          <div
+            className="alert alert-warning alert-dismissible fade show mt-2"
+            role="alert"
+          >
+            <strong>Por favor preencha todos os campos!</strong>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="alert"
+              aria-label="Close"
+            ></button>
+          </div>
+        )}
+        {success && (
+          <div
+            className="alert alert-success alert-dismissible fade show mt-2"
+            role="alert"
+          >
+            <strong>Mensagem enviada!</strong>
+          </div>
+        )}
 
-            <Button onClick={sendMessage} className="mt-2" variant="contained" color="primary">
-                Sent
-            </Button>
-            {message.map((content) =>{
-                return(
-                    <div className="card mt-2" key={content.id}>
-                        <div className="card-body">
-                            <h5 className="card-title">{content.email}</h5>
-                            <h5 className="card-text">{content.message}</h5>
-                            <h5 className="card-text"><small className="text-muted">{content.created_at}</small></h5>
-                        </div>
-                    </div>
-                )
-            } )}
-        </>
-    )
+        <Button
+          onClick={sendMessage}
+          className="mt-2"
+          variant="contained"
+          color="primary"
+        >
+          Sent
+        </Button>
+
+        <div className="card mt-2">
+          <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+            <TableHead>
+              <TableRow className="card-header">
+                <TableCell>Nome / email</TableCell>
+                <TableCell>Mensagem</TableCell>
+                <TableCell>Data de criação</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {message.map((content) => (
+                <TableRow
+                  key={content.id}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {content.email}
+                  </TableCell>
+                  <TableCell>{content.message}</TableCell>
+                  <TableCell>{content.created_at}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </>
+    );
 }
 
 export default Mural;
