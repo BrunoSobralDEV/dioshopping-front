@@ -12,15 +12,19 @@ const Mural = () =>{
     const [author, setAuthor] = useState('');
     const [content, setContent] = useState('');
 
-    //alert de erro
+    //alert's
     const [validator, setValidator] = useState(false);
+    const [success, setSuccess] = useState(false);
+
+    //renderizar a página, após inserção
+    const [render, setRender] = useState(false);
 
     useEffect(async () =>{
         const response = await fetch(url)
         const data = await response.json();
         setMessage(data);
-        //passar [] vazio, senão fica em loop
-    }, [])
+        //Quando render for verdadeiro, irá consultar novamente a API
+    }, [render])
 
     const sendMessage = () =>{
         setValidator(false);
@@ -40,6 +44,22 @@ const Mural = () =>{
             },
             body: JSON.stringify(bodyForm)
         })
+        //Retornar a resposta em json
+        .then((response) => response.json())
+        //pega os dados e me devolve
+        .then((data) =>{
+            if(data.id){
+                setRender(true);
+                setSuccess(true);
+                setTimeout(() => {
+                    setSuccess(false)
+                }, 3000)
+            }
+        })
+        
+        //limpar campos
+        setAuthor('');
+        setContent('');
 
         console.log(content)
     }
@@ -55,6 +75,11 @@ const Mural = () =>{
                 <div className="alert alert-warning alert-dismissible fade show mt-2" role="alert">
                     <strong>Por favor preencha todos os campos!</strong>
                     <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            {success &&
+                <div className="alert alert-success alert-dismissible fade show mt-2" role="alert">
+                    <strong>Mensagem enviada!</strong>
                 </div>
             }
 
