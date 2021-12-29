@@ -11,6 +11,9 @@ const Mural = () =>{
     const [author, setAuthor] = useState('');
     const [content, setContent] = useState('');
 
+    //alert de erro
+    const [validator, setValidator] = useState(false);
+
     useEffect(async () =>{
         const response = await fetch('http://localhost:5000/message')
         const data = await response.json();
@@ -19,7 +22,10 @@ const Mural = () =>{
     }, [])
 
     const sendMessage = () =>{
-        console.log(author, content)
+        setValidator(false);
+        if(author.length <= 0 || content.length <= 0){
+            return setValidator(!validator)
+        }
     }
 
     return(
@@ -28,6 +34,14 @@ const Mural = () =>{
                 <TextField id="name" label="Name" value={author} onChange={(event)=>{setAuthor(event.target.value)}} fullWidth />
                 <TextField id="message" label="Message" value={content} onChange={(event)=>{setContent(event.target.value)}} fullWidth />
             </Grid>
+
+            {validator &&
+                <div className="alert alert-warning alert-dismissible fade show mt-2" role="alert">
+                    <strong>Por favor preencha todos os campos!</strong>
+                    <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
             <Button onClick={sendMessage} className="mt-2" variant="contained" color="primary">
                 Sent
             </Button>
