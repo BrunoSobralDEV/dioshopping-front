@@ -7,6 +7,12 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 
+import { IconeEdicao, IconeLixo } from "../components/Icones";
+
+const divStyle = {
+    cursor: "default"
+}
+
 const Mural = () =>{
 
     const url = 'http://localhost:5000/message';
@@ -121,16 +127,17 @@ const Mural = () =>{
           variant="contained"
           color="primary"
         >
-          Sent
+          Save
         </Button>
-
-        <div className="card mt-2">
-          <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+        
+        <div className="card mt-2" style={divStyle}>
+          <Table sx={{ minWidth: 650}} size="small" aria-label="a dense table">
             <TableHead>
               <TableRow className="card-header">
                 <TableCell>Nome / email</TableCell>
                 <TableCell>Mensagem</TableCell>
                 <TableCell>Data de criação</TableCell>
+                <TableCell>Ações</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -144,6 +151,7 @@ const Mural = () =>{
                   </TableCell>
                   <TableCell>{content.message}</TableCell>
                   <TableCell>{content.created_at}</TableCell>
+                  <TableCell>{renderizarAcoes(content)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -153,4 +161,12 @@ const Mural = () =>{
     );
 }
 
+function renderizarAcoes(content) {
+    return (
+      <div>
+        <span onClick={()=>{}} className="d-flex p-2 bd-highlight">{IconeEdicao}</span>
+        <span className="d-flex p-2 bd-highlight">{IconeLixo}</span>
+      </div>
+    );
+}
 export default Mural;
