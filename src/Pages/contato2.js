@@ -4,6 +4,7 @@ import { Grid, Button, TextField } from "@material-ui/core";
 
 const Mural = () =>{
 
+    const url = 'http://localhost:5000/message';
     //listar as mensagens do banco - map() em seguida
     const [message, setMessage] = useState([]);
 
@@ -15,7 +16,7 @@ const Mural = () =>{
     const [validator, setValidator] = useState(false);
 
     useEffect(async () =>{
-        const response = await fetch('http://localhost:5000/message')
+        const response = await fetch(url)
         const data = await response.json();
         setMessage(data);
         //passar [] vazio, senão fica em loop
@@ -26,6 +27,18 @@ const Mural = () =>{
         if(author.length <= 0 || content.length <= 0){
             return setValidator(!validator)
         }
+        
+        //Envio dos dados p/ Back-end
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: {
+                email: author,
+                message: content
+            }
+        })
     }
 
     return(
