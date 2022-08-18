@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Grid, Button, TextField } from '@material-ui/core/';
+import { Grid, Button, TextField, CircularProgress } from '@material-ui/core/';
 
 const Contatos = () => {
 
     const url = 'http://localhost:5000/message'
+    const [isLoading, setLoading]     = useState(true);
     const [message, setMessage]     = useState([]);
     const [author, setAuthor]       = useState('');
     const [content, setContent]     = useState('');
@@ -15,6 +16,7 @@ const Contatos = () => {
         const response = await fetch(url)
         const data = await response.json();
         setMessage(data);
+        setLoading(false);
     }, [render])
 
     const sendMessage = () => {
@@ -41,7 +43,7 @@ const Contatos = () => {
                 setSuccess(true);
                 setTimeout(() => {
                     setSuccess(false);
-                }, 5000)
+                }, 3000)
             }
         })
         
@@ -75,7 +77,8 @@ const Contatos = () => {
                 Sent
             </Button>
 
-            {message.map((content) => {
+            {isLoading ? <CircularProgress /> : 
+                message.map((content) => {
                 return(
                     <div className="card mt-2" key={content.id}>
                         <div className="card-body">

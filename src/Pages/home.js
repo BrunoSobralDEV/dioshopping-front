@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import { Paper, Grid, Typography, List, makeStyles } from '@material-ui/core/';
 import Item from '../components/Item';
@@ -16,6 +15,8 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const HomePage = () => {
+    
+
     const products = useSelector(state => state.products)
     const classes = useStyles();
 
